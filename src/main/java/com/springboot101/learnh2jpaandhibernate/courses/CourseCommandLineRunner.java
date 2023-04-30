@@ -8,6 +8,7 @@ import com.springboot101.learnh2jpaandhibernate.courses.jdbc.CourseJdbcRepositor
 import com.springboot101.learnh2jpaandhibernate.courses.jpa.CourseJpaRepository;
 import com.springboot101.learnh2jpaandhibernate.courses.models.BookDetails;
 import com.springboot101.learnh2jpaandhibernate.courses.models.CourseJPA;
+import com.springboot101.learnh2jpaandhibernate.courses.springDataJpa.CourseSpringDataJpaRepository;
 
 
 
@@ -23,6 +24,8 @@ public class CourseCommandLineRunner  implements CommandLineRunner{
 	private CourseJdbcRepository courseJdbcRepository;
 	@Autowired
 	private CourseJpaRepository courseJpaRepository;
+	@Autowired
+	private CourseSpringDataJpaRepository courseSpringDataJpaRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -40,6 +43,16 @@ public class CourseCommandLineRunner  implements CommandLineRunner{
 		courseJpaRepository.insertCourseIntoTable(new CourseJPA( "Yellow JPA 3", "Yellow Auth JPA 3"));
 		System.out.println(courseJpaRepository.getCourseById(1));
 		courseJpaRepository.deleteCourseById(2);
+		
+		
+		//Perform insert, getbyID and getAll with SpringDataJpa
+		courseSpringDataJpaRepository.save(new CourseJPA( "Yellow SpringDataJpa", "Yellow Auth SpringDataJpa"));
+		courseSpringDataJpaRepository.save(new CourseJPA( "Yellow SpringDataJpa 2", "Yellow Auth SpringDataJpa 2"));
+		courseSpringDataJpaRepository.save(new CourseJPA( "Yellow SpringDataJpa 3", "Yellow Auth SpringDataJpa 3"));
+		System.out.println(courseSpringDataJpaRepository.findById(1L));
+		courseSpringDataJpaRepository.deleteById(2L);
+		System.out.println(courseSpringDataJpaRepository.findByAuthor("Yellow Auth SpringDataJpa 3"));
+
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.springboot101.learnh2jpaandhibernate.courses;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,7 +71,7 @@ public class CourseController {
 
 	}
 	
-	
+	/**-------------------------------------------------------------------------------------*/
 	// API to insert a a row in the table using JPA
 		@PostMapping("/createCourseWithJPA")
 		public CourseJPA createCourseWithJPA(@RequestBody BookDetails bookDetails) {
@@ -107,5 +108,55 @@ public class CourseController {
 			return course;
 
 		}
+		
+		/**-------------------------------------------------------------------------------------*/
+		// API to insert a a row in the table using SpringDataJPA
+			@PostMapping("/createCourseWithSpringDataJPA")
+			public CourseJPA createCourseWithSpringJPA(@RequestBody BookDetails bookDetails) {
+				return courseDaoService.createCourseWithSpringDataJpa(bookDetails);
+
+			}
+			
+			@DeleteMapping("/deleteCourseWithSpringDataJPAById/{id}")
+			public void deleteCourseWithSpringDataJPAById(@PathVariable long id) {
+				courseDaoService.deleteCourseWithSpringDataJpaById(id); 
+			}
+			
+			// API to insert a a row in the table
+			@GetMapping("/getCourseWithSpringDataJPAById/{id}")
+			public Optional<CourseJPA> getCourseWithSpringDataJPAById(@PathVariable long id) {
+				Optional<CourseJPA> course = courseDaoService.getCourseWithSpringDataJpaById(id);
+
+				if (course.isEmpty()) {
+					throw new CourseNotFoundException("No course found with id :" + id + "course: " + course);
+				}
+
+				return course;
+
+			}
+			
+			@GetMapping("/getAllCoursesInTableWithSpringDataJpa")
+			public List<CourseJPA> getAllCoursesInTableWithSpringDataJpa() {
+				List<CourseJPA> course = courseDaoService.getAllCoursesInTableWithSpringDataJpa();
+
+				if (course.size() == 0) {
+					throw new CourseNotFoundException("No courses found in table course");
+				}
+
+				return course;
+
+			}
+			
+			@GetMapping("/getCourseWithSpringDataJPAByAuthor/{author}")
+			public List<CourseJPA> getCourseWithSpringDataJPAById(@PathVariable String author) {
+				List<CourseJPA> course = courseDaoService.getCourseWithSpringDataJpaByAuthor(author);
+
+				if (course.isEmpty()) {
+					throw new CourseNotFoundException("No course found with author :" + author + "course: " + course);
+				}
+
+				return course;
+
+			}
 
 }
