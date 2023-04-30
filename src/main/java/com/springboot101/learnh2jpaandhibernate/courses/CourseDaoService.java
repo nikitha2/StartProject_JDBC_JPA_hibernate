@@ -14,7 +14,6 @@ import com.springboot101.learnh2jpaandhibernate.courses.models.CourseJPA;
 public class CourseDaoService {
 
 	private static List<CourseJDBC> course = new ArrayList<CourseJDBC>();
-	private static Long courseCount = 0L;
 
 	CourseJdbcRepository courseJdbcRepository;
 	CourseJpaRepository courseJpaRepository;
@@ -24,13 +23,8 @@ public class CourseDaoService {
 		this.courseJdbcRepository = courseRepository;
 		this.courseJpaRepository = courseJpaRepository;
 	}
-
-	static {
-		course.add(new CourseJDBC(courseCount++, new BookDetails("Pink", "Pink Auth")));
-		course.add(new CourseJDBC(courseCount++, new BookDetails("Red", "RedA uth")));
-		course.add(new CourseJDBC(courseCount++, new BookDetails("Blue", "Blue Auth")));
-		course.add(new CourseJDBC(courseCount++, new BookDetails("Yellow", "Yellow Auth")));
-	}
+	
+	//JDBC 
 
 	public List<CourseJDBC> getAllCourses() {
 		return course;
@@ -51,6 +45,9 @@ public class CourseDaoService {
 	public CourseJDBC getCourses() {
 		return courseJdbcRepository.getCourses();
 	}
+	
+	
+	//JPA
 
 	public CourseJPA createCourseWithJpa(BookDetails bookDetails) {
 		return courseJpaRepository.insertCourseIntoTable(new CourseJPA(bookDetails.getName(), bookDetails.getAuthor()));
