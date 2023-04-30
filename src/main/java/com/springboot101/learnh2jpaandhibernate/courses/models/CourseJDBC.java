@@ -1,17 +1,23 @@
 package com.springboot101.learnh2jpaandhibernate.courses.models;
 
-//@Entity
-public class Course {
+import java.io.Serializable;
 
-//	@Id
+import jakarta.persistence.Table;
+
+@Table(name = "CourseJDBC")
+public class CourseJDBC implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
 	private Long id;
+	
 	private BookDetails bookDetails;
 
-	public Course() {
+	public CourseJDBC() {
 
 	}
 
-	public Course(Long id, BookDetails bookDetails) {
+	public CourseJDBC(Long id, BookDetails bookDetails) {
 		super();
 		this.id = id;
 		this.bookDetails = bookDetails;

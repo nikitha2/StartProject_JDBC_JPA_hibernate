@@ -1,6 +1,5 @@
 package com.springboot101.learnh2jpaandhibernate.courses.models;
 
-
 public class BookDetails {
 
 	String name;

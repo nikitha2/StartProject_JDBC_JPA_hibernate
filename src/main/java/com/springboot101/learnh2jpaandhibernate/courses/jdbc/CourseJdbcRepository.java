@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.springboot101.learnh2jpaandhibernate.courses.models.BookDetails;
-import com.springboot101.learnh2jpaandhibernate.courses.models.Course;
+import com.springboot101.learnh2jpaandhibernate.courses.models.CourseJDBC;
 import com.springboot101.learnh2jpaandhibernate.courses.models.CourseRowMap;
 
 @Repository
@@ -24,7 +24,7 @@ public class CourseJdbcRepository {
 			values (?, ?, ?)
 			""";
 
-	private static final String GET_QUERY = """
+	private static String GET_QUERY = """
 				SELECT * FROM COURSE
 			""";
 
@@ -45,11 +45,11 @@ public class CourseJdbcRepository {
 		return jdbcTemplate.update(DELETE_QUERY, id);
 	}
 
-	public Course getCourseById(long id) {
+	public CourseJDBC getCourseById(long id) {
 		return jdbcTemplate.queryForObject(GET_FOR_ID_QUERY, new CourseRowMap() , id);
 	}
 	
-	public Course getCourses() {
+	public CourseJDBC getCourses() {
 		return jdbcTemplate.queryForObject(GET_QUERY, new CourseRowMap());
 	}
 

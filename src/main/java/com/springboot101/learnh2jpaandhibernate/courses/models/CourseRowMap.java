@@ -5,12 +5,12 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class CourseRowMap implements RowMapper<Course> {
+public class CourseRowMap implements RowMapper<CourseJDBC> {
 
 	@Override
-	public Course mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public CourseJDBC mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-		Course course = new Course();
+		CourseJDBC course = new CourseJDBC();
 		course.setId(rs.getLong("id"));
 
 		BookDetails bookDetails = new BookDetails();

@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.springboot101.learnh2jpaandhibernate.courses.models.BookDetails;
-import com.springboot101.learnh2jpaandhibernate.courses.models.Course;
+import com.springboot101.learnh2jpaandhibernate.courses.models.CourseJDBC;
+import com.springboot101.learnh2jpaandhibernate.courses.models.CourseJPA;
 import com.springboot101.learnh2jpaandhibernate.exception.CourseNotFoundException;
 
 @RestController
@@ -21,11 +22,11 @@ public class CourseController {
 	private CourseDaoService courseDaoService;
 
 	@GetMapping("/courses")
-	public List<Course> getAllCourses() {
+	public List<CourseJDBC> getAllCourses() {
 		return courseDaoService.getAllCourses();
 	}
 
-	// API to insert a a row in the table
+	// API to insert a a row in the table using JDBC
 	@PostMapping("/createCourse")
 	public int createCourse(@RequestBody BookDetails bookDetails) {
 		return courseDaoService.createCourse(bookDetails);
@@ -46,8 +47,8 @@ public class CourseController {
 
 	// API to insert a a row in the table
 	@GetMapping("/getCourse/{id}")
-	public Course getCourseById(@PathVariable long id) {
-		Course course = courseDaoService.getCourseById(id);
+	public CourseJDBC getCourseById(@PathVariable long id) {
+		CourseJDBC course = courseDaoService.getCourseById(id);
 
 		if (course.getBookDetails() == null) {
 			throw new CourseNotFoundException("No course found with id :" + id + "course: " + course);
@@ -58,8 +59,8 @@ public class CourseController {
 	}
 
 	@GetMapping("/getCourses")
-	public Course getCourses() {
-		Course course = courseDaoService.getCourses();
+	public CourseJDBC getCourses() {
+		CourseJDBC course = courseDaoService.getCourses();
 
 		if (course.getBookDetails() == null) {
 			throw new CourseNotFoundException("No courses found in table course");
@@ -68,5 +69,43 @@ public class CourseController {
 		return course;
 
 	}
+	
+	
+	// API to insert a a row in the table using JPA
+		@PostMapping("/createCourseWithJPA")
+		public CourseJPA createCourseWithJPA(@RequestBody BookDetails bookDetails) {
+			return courseDaoService.createCourseWithJpa(bookDetails);
+
+		}
+		
+		@DeleteMapping("/deleteCourseWithJPAById/{id}")
+		public void deleteCourseWithJPAById(@PathVariable long id) {
+			courseDaoService.deleteCourseWithJpaById(id); 
+		}
+		
+		// API to insert a a row in the table
+		@GetMapping("/getCourseWithJPAById/{id}")
+		public CourseJPA getCourseWithJPAById(@PathVariable long id) {
+			CourseJPA course = courseDaoService.getCourseWithJpaById(id);
+
+			if (course.getId() == null) {
+				throw new CourseNotFoundException("No course found with id :" + id + "course: " + course);
+			}
+
+			return course;
+
+		}
+		
+		@GetMapping("/getAllCoursesInTableWithJpa")
+		public List<CourseJPA> getAllCoursesInTableWithJpa() {
+			List<CourseJPA> course = courseDaoService.getAllCoursesInTableWithJpa();
+
+			if (course.size() == 0) {
+				throw new CourseNotFoundException("No courses found in table course");
+			}
+
+			return course;
+
+		}
 
 }
